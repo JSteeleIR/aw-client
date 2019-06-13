@@ -56,7 +56,7 @@ def main():
     args = parser.parse_args()
     # print("Args: {}".format(args))
 
-    client = aw_client.ActivityWatchClient(host=args.host)
+    client = aw_client.ActivityWatchClient(host=args.host.split(':')[0], port=args.host.split(':')[1])
 
     if args.which == "heartbeat":
         e = Event(duration=0, data=json.loads(args.data), timestamp=now)
