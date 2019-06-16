@@ -121,9 +121,8 @@ def main():
         prog='aw-cli',
         description='A CLI utility for interacting with ActivityWatch.')
     parser.set_defaults(which='none')
-    parser.add_argument('--host',
-                        default='localhost:5600',
-                        help='Host to use, on the format HOSTNAME:PORT')
+    parser.add_argument('--host', default="localhost:5600",
+                        help="Host to use, in the format HOSTNAME[:PORT]")
     parser.add_argument("--testing",
                         action="store_true",
                         help='run in testing mode')
@@ -233,9 +232,11 @@ def main():
     args = parser.parse_args()
     # print("Args: {}".format(args))
 
-    cli = AWCLIHelper(host=args.host.split(':')[0],
-                      port=args.host.split(':')[1],
-                      testing=args.testing)
+    cli = AWCLIHelper(
+        host=args.host.split(':')[0],
+        port=(args.host.split(':')[1] if
+              (len(args.host.split(':')) > 1) else 5600),
+        testing=args.testing)
 
     # TODO: Implement this as switch-case, instead of if/else.
     if args.which == "heartbeat":
